@@ -1,12 +1,12 @@
-pnpm create next-app@latest ecommerce-admin --typescript --tailwind --eslint
+```pnpm create next-app@latest ecommerce-admin --typescript --tailwind --eslint```
 
 √ Would you like to use `src/` directory? ... No 
 √ Would you like to use App Router? (recommended) ... Yes
 √ Would you like to customize the default import alias? ... No
 
-cd ecommerce-admin/
+```cd ecommerce-admin/```
 
-npx shadcn-ui@latest init
+```npx shadcn-ui@latest init```
 
 Ok to proceed? (y) y
 √ Would you like to use TypeScript (recommended)? ... yes
@@ -20,18 +20,7 @@ Ok to proceed? (y) y
 √ Are you using React Server Components? ... yes
 √ Write configuration to components.json. Proceed? ... yes
 
-npx shadcn-ui@latest add button
+```npx shadcn-ui@latest add button```
 
 
-pnpm add @clerk/nextjs
-
-
-
-
-
-
-
-
-//Links
-https://ui.shadcn.com/docs/installation/next
-https://clerk.com/
+```pnpm add @clerk/nextjs```
