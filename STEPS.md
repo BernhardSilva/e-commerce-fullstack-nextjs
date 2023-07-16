@@ -28,4 +28,6 @@ Ok to proceed? (y) y
 
 ```npx shadcn-ui@latest add form```
 
+```npx shadcn-ui@latest add input```
+
 ```pnpm add zustand```
