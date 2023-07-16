@@ -31,3 +31,20 @@ Ok to proceed? (y) y
 ```npx shadcn-ui@latest add input```
 
 ```pnpm add zustand```
+
+```pnpm add -D prisma```
+
+```pnpm add @prisma/client```
+
+```npx prisma init```
+
+
+//after creating schema of prismadb
+```npx prisma generate```
+
+```npx prisma db push```
+
+
+```pnpm add axios```
+
+
