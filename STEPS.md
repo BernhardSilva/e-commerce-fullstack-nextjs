@@ -47,4 +47,17 @@ Ok to proceed? (y) y
 
 ```pnpm add axios```
 
+```pnpm add react-hot-toast```
+
+```pnpm dlx shadcn-ui@latest add popover```
+
+```pnpm dlx shadcn-ui@latest add command```
+
+//to delete db
+```npx prisma migrate reset```
+```npx prisma generate```
+```npx prisma db push```
+
+
+
 
