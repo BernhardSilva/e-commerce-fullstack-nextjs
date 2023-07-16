@@ -20,7 +20,12 @@ Ok to proceed? (y) y
 √ Are you using React Server Components? ... yes
 √ Write configuration to components.json. Proceed? ... yes
 
+```pnpm add @clerk/nextjs```
+
 ```npx shadcn-ui@latest add button```
 
+```npx shadcn-ui@latest add dialog```
 
-```pnpm add @clerk/nextjs```
+```npx shadcn-ui@latest add form```
+
+```pnpm add zustand```
