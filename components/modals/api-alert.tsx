@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge, BadgeProps } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { describe } from 'node:test';
 
 interface ApiAlertProps {
 	title: string;
@@ -25,8 +24,6 @@ const variantMap: Record<ApiAlertProps['variant'], BadgeProps['variant']> = {
 
 
 export const ApiALert = ({ title, description, variant = 'public' }: ApiAlertProps) => {
-	
-	console.log(description)
 
 	const onCopy = () => {
 		navigator.clipboard.writeText(description)
