@@ -59,5 +59,10 @@ Ok to proceed? (y) y
 ```npx prisma db push```
 
 
+```pnpm dlx shadcn-ui@latest add alert```
+
+```pnpm dlx shadcn-ui@latest add badge```
+
+
 
 
