@@ -24,12 +24,26 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			return new NextResponse('Store id is required', { status: 400 });
 		}
 
+		const categoryFound = await prismadb.category.findFirst({
+			where: {
+				name
+			}
+		});
+
+		if (categoryFound) {
+			return new NextResponse('Category is duplicated, choose different name', { status: 400 });
+		}
+
 		const storeByUserId = await prismadb.store.findFirst({
 			where: {
 				id: params.storeId,
 				userId
 			}
 		});
+
+		if (!storeByUserId) {
+			return new NextResponse('Unauthoriazed', { status: 403 });
+		}
 
 		const category = await prismadb.category.create({
 			data: {
@@ -39,12 +53,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			}
 		});
 
-		if (!storeByUserId) {
-			return new NextResponse('Unauthoriazed', { status: 403 });
-		}
-
 		return NextResponse.json(category);
-
 	} catch (error) {
 		console.log('[CATEGORY_POST]', error);
 		return new NextResponse('Internal error', { status: 500 });

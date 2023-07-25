@@ -31,6 +31,20 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			}
 		});
 
+		if (!storeByUserId) {
+			return new NextResponse('Unauthoriazed', { status: 403 });
+		}
+
+		const billboardFound = await prismadb.billboard.findFirst({
+			where: {
+				label
+			}
+		});
+
+		if (billboardFound) {
+			return new NextResponse('Billboard is duplicated, choose different name', { status: 400 });
+		}
+
 		const billboard = await prismadb.billboard.create({
 			data: {
 				label,
@@ -39,9 +53,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			}
 		});
 
-		if (!storeByUserId) {
-			return new NextResponse('Unauthoriazed', { status: 403 });
-		}
 
 		return NextResponse.json(billboard);
 	} catch (error) {

@@ -40,6 +40,16 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			return new NextResponse('Billboard id is required', { status: 400 });
 		}
 
+		const categoryFound = await prismadb.category.findFirst({
+			where: {
+				name
+			}
+		});
+
+		if (categoryFound) {
+			return new NextResponse('Category is duplicated, choose different name', { status: 400 });
+		}
+
 		const storeByUserId = await prismadb.store.findFirst({
 			where: {
 				id: params.storeId,

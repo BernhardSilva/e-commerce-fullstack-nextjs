@@ -3,7 +3,7 @@
 import { Separator } from '@/components/ui/separator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Billboard, Category } from '@prisma/client';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -59,8 +59,9 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 			router.refresh();
 			router.push(`/${params.storeId}/categories`);
 			toast.success(toastMessage);
-		} catch (error) {
-			toast.error('Something went wrong.');
+		} catch (error: any) {
+			toast.error(error.response.data);
+			console.error(error);
 		} finally {
 			setLoading(false);
 		}
@@ -101,7 +102,7 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 							control={form.control}
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Label</FormLabel>
+									<FormLabel>Name</FormLabel>
 									<FormControl>
 										<Input disabled={loading} placeholder='Category name' {...field} />
 									</FormControl>

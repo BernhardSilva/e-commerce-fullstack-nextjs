@@ -21,6 +21,16 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			return new NextResponse('Store id is required', { status: 400 });
 		}
 
+		const storeFound = await prismadb.store.findFirst({
+			where: {
+				name
+			}
+		});
+
+		if (storeFound) {
+			return new NextResponse('Store is duplicated, choose a different name', { status: 400 });
+		}
+
 		const store = await prismadb.store.updateMany({
 			where: {
 				id: params.storeId,

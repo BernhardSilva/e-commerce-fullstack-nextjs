@@ -38,9 +38,12 @@ export const StoreModal = () => {
 
 			//for better UX I use window.location, so it can refresh and avoid delay from db
 			window.location.assign(`/${response.data.id}`);
-			toast.success('Store deleted.');
-		} catch (error) {
-			toast.error('Something went wrong.');
+			toast.success('Store created.');
+		} catch (error: any) {
+			toast.error(error.response.data);
+			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 

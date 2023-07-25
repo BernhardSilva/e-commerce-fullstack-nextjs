@@ -50,6 +50,16 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			return new NextResponse('Unauthoriazed', { status: 403 });
 		}
 
+		const billboardFound = await prismadb.billboard.findFirst({
+			where: {
+				label
+			}
+		});
+
+		if (billboardFound) {
+			return new NextResponse('Billboard is duplicated, choose different name', { status: 400 });
+		}
+
 		const billboard = await prismadb.billboard.updateMany({
 			where: {
 				id: params.billboardId
