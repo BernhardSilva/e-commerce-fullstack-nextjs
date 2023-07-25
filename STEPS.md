@@ -64,5 +64,12 @@ Ok to proceed? (y) y
 ```pnpm dlx shadcn-ui@latest add badge```
 
 
+```pnpm dlx shadcn-ui@latest add table```
+
+```pnpm add @tanstack/react-table```
+
+```pnpm dlx shadcn-ui@latest add select```
+
+
 
 

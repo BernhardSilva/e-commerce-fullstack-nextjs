@@ -16,7 +16,7 @@ export const GET = async (req: Request, { params }: { params: { billboardId: str
 
 		return NextResponse.json(billboard);
 	} catch (error) {
-		console.log('[BILLBOARD_DELETE]', error);
+		console.log('[BILLBOARD_GET]', error);
 		return new NextResponse('Internal error', { status: 500 });
 	}
 };
