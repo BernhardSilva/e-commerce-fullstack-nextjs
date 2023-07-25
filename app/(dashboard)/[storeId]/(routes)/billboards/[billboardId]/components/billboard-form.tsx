@@ -15,7 +15,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Heading } from '@/components/ui/heading';
 import ImageUpload from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
-import { useOrigin } from '@/hooks/use-origin';
 import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -56,7 +55,7 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 				await axios.post(`/api/${params.storeId}/billboards`, data);
 			}
 			router.refresh();
-			router.push(`/${params.storeId}/billboards`)
+			router.push(`/${params.storeId}/billboards`);
 			toast.success(toastMessage);
 		} catch (error) {
 			toast.error('Something went wrong.');
