@@ -44,7 +44,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 			router.refresh();
 			toast.success('Category deleted.');
 		} catch (error) {
-			toast.error('Make sure you removed all products using this categoryBillboard first.');
+			toast.error('Make sure you removed all products using this category first.');
 		} finally {
 			setLoading(false);
 			setOpen(false);
