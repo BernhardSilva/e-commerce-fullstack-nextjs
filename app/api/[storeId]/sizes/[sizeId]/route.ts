@@ -3,7 +3,6 @@ import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 export const GET = async (req: Request, { params }: { params: { sizeId: string } }) => {
-	
 	try {
 		if (!params.sizeId) {
 			return new NextResponse('Size id is required', { status: 400 });
@@ -46,7 +45,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			}
 		});
 
-		if (sizeFound) {
+		if (sizeFound && sizeFound.id !== params.sizeId) {
 			return new NextResponse('Size is used, choose different name', { status: 400 });
 		}
 

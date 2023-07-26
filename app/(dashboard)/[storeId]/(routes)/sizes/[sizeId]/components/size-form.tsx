@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
-import { Trash } from 'lucide-react';
+import { ArrowLeft, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
@@ -40,6 +40,10 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 	const toastMessage = initialData ? 'Size updated.' : 'Size created.';
 	const action = initialData ? 'Save changes' : 'Create';
 
+	const goBack = () => {
+		router.push(`/${params.storeId}/sizes`);
+	};
+
 	const form = useForm<SizeFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData || { name: '', value: '' }
@@ -54,7 +58,7 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 				await axios.post(`/api/${params.storeId}/sizes`, data);
 			}
 			router.refresh();
-			router.push(`/${params.storeId}/sizes`);
+			goBack();
 			toast.success(toastMessage);
 		} catch (error: any) {
 			toast.error(error.response.data);
@@ -81,6 +85,9 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 
 	return (
 		<>
+			<Button disabled={loading} variant='default' color='icon' onClick={goBack}>
+				<ArrowLeft className='h-4 w-4' />
+			</Button>
 			<AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 			<div className='flex items-center justify-between'>
 				<Heading title={title} description={description} />

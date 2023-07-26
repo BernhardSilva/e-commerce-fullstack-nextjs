@@ -17,6 +17,7 @@ import ImageUpload from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
 import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 const formSchema = z.object({
 	label: z.string().min(1),
@@ -41,6 +42,10 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 	const toastMessage = initialData ? 'Billboard updated.' : 'Billboard created.';
 	const action = initialData ? 'Save changes' : 'Create';
 
+	const goBack = () => {
+		router.push(`/${params.storeId}/billboards`);
+	};
+
 	const form = useForm<BillboardFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData || { label: '', imageUrl: '' }
@@ -55,7 +60,7 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 				await axios.post(`/api/${params.storeId}/billboards`, data);
 			}
 			router.refresh();
-			router.push(`/${params.storeId}/billboards`);
+			goBack();
 			toast.success(toastMessage);
 		} catch (error: any) {
 			toast.error(error.response.data);
@@ -82,6 +87,9 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 
 	return (
 		<>
+			<Button disabled={loading} variant='default' color='icon' onClick={goBack}>
+				<ArrowLeft className='h-4 w-4' />
+			</Button>
 			<AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 			<div className='flex items-center justify-between'>
 				<Heading title={title} description={description} />

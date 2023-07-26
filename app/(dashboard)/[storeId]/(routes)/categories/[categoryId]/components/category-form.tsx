@@ -18,6 +18,7 @@ import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft } from 'lucide-react';
 
 const formSchema = z.object({
 	name: z.string().min(1),
@@ -43,6 +44,10 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 	const toastMessage = initialData ? 'Category updated.' : 'Category created.';
 	const action = initialData ? 'Save changes' : 'Create';
 
+	const goBack = () => {
+		router.push(`/${params.storeId}/categories`);
+	};
+
 	const form = useForm<CategoryFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData || { name: '', billboardId: '' }
@@ -57,7 +62,7 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 				await axios.post(`/api/${params.storeId}/categories`, data);
 			}
 			router.refresh();
-			router.push(`/${params.storeId}/categories`);
+			goBack();
 			toast.success(toastMessage);
 		} catch (error: any) {
 			toast.error(error.response.data);
@@ -84,6 +89,9 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 
 	return (
 		<>
+			<Button disabled={loading} variant='default' color='icon' onClick={goBack}>
+				<ArrowLeft className='h-4 w-4' />
+			</Button>
 			<AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 			<div className='flex items-center justify-between'>
 				<Heading title={title} description={description} />

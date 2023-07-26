@@ -15,6 +15,7 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from 'react';
+import { SearchCheck } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -40,7 +41,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
 		<div>
 			<div className='flex items-center py-4'>
 				<Input
-					placeholder='Search...'
+					placeholder={"🔍️ Search..."}
 					value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
 					onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
 					className='max-w-sm'

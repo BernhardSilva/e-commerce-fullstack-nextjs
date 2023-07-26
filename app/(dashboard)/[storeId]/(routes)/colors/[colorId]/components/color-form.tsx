@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
-import { Trash } from 'lucide-react';
+import { ArrowLeft, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
@@ -42,6 +42,10 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 	const toastMessage = initialData ? 'Color updated.' : 'Color created.';
 	const action = initialData ? 'Save changes' : 'Create';
 
+	const goBack = () => {
+		router.push(`/${params.storeId}/colors`);
+	}
+
 	const form = useForm<ColorFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData || { name: '', value: '' }
@@ -56,7 +60,7 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 				await axios.post(`/api/${params.storeId}/colors`, data);
 			}
 			router.refresh();
-			router.push(`/${params.storeId}/colors`);
+			goBack()
 			toast.success(toastMessage);
 		} catch (error: any) {
 			toast.error(error.response.data);
@@ -83,6 +87,9 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 
 	return (
 		<>
+			<Button disabled={loading} variant='default' color='icon' onClick={goBack}>
+				<ArrowLeft className='h-4 w-4' />
+			</Button>
 			<AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 			<div className='flex items-center justify-between'>
 				<Heading title={title} description={description} />
@@ -124,8 +131,12 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 												type='color'
 												{...field}
 											/>
-
-											<div className='border p-1.5 rounded-md'>{!field.value ? 'Empty' : field.value}</div>
+											<Input
+												className='border p-1.5 rounded-md'
+												disabled={loading}
+												placeholder='Hex value'
+												{...field}
+											/>
 										</div>
 									</FormControl>
 									<FormMessage />
