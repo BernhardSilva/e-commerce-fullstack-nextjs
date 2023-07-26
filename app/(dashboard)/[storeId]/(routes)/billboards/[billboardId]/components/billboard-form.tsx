@@ -114,6 +114,7 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 										disabled={loading}
 										onChange={(url) => field.onChange(url)}
 										onRemove={() => field.onChange('')}
+										options={{ maxFiles: 1, maxFileSize: 300000 }}
 									/>
 								</FormControl>
 								<FormMessage />

@@ -5,14 +5,19 @@ import { ImagePlus, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { CldUploadWidget } from 'next-cloudinary';
 
+interface OptionsProps {
+	maxFiles: number;
+	maxFileSize: number;
+}
 interface ImageUploadProps {
 	disabled: boolean;
 	onChange: (value: string) => void;
 	onRemove: (value: string) => void;
 	value: string[];
+	options: OptionsProps;
 }
 
-const ImageUpload = ({ disabled, onChange, onRemove, value }: ImageUploadProps) => {
+const ImageUpload = ({ disabled, onChange, onRemove, value, options }: ImageUploadProps) => {
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
@@ -29,7 +34,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: ImageUploadProps) 
 
 	return (
 		<div>
-			<div className='mb-4 flex items-center gap-4'>
+			<div className='mb-4 flex flex-wrap justify-center gap-4'>
 				{value.map((url) => (
 					<div key={url} className='relative w-[200px] h-[200px] rounded-md overflow-hidden'>
 						<div className='z-10 absolute top-2 right-2'>
@@ -41,7 +46,11 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: ImageUploadProps) 
 					</div>
 				))}
 			</div>
-			<CldUploadWidget onUpload={onUpload} uploadPreset='wdby685k'>
+			<CldUploadWidget
+				onUpload={onUpload}
+				uploadPreset='wdby685k'
+				options={{ maxFiles: options?.maxFiles, maxFileSize: options?.maxFileSize }}
+			>
 				{({ open }) => {
 					const onClick = () => {
 						open();

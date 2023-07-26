@@ -70,6 +70,12 @@ Ok to proceed? (y) y
 
 ```pnpm dlx shadcn-ui@latest add select```
 
+```pnpm dlx shadcn-ui@latest add checkbox```
+
+```pnpm dlx shadcn-ui@latest add textarea```
+
+```pnpm add next-themes```
+
 
 
 

@@ -123,7 +123,7 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 							control={form.control}
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Billboard Id</FormLabel>
+									<FormLabel>Billboard id</FormLabel>
 									<FormControl>
 										<Select
 											disabled={loading}

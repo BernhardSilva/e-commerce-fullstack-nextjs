@@ -125,9 +125,8 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 									<FormControl>
 										<div className='flex items-center gap-x-4'>
 											<input
-												className='border w-10 h-10'
+												className='border w-10 h-10 cursor-pointer'
 												disabled={loading}
-												placeholder='Color value'
 												type='color'
 												{...field}
 											/>

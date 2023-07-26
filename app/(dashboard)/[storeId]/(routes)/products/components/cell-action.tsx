@@ -1,10 +1,10 @@
 'use client';
 
-import { copyClipboard } from '@/hooks/use-copy';
-import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useParams, useRouter } from 'next/navigation';
+import { copyClipboard } from '@/hooks/use-copy';
 
 import { AlertModal } from '@/components/modals/alert-modal';
 import { Button } from '@/components/ui/button';
@@ -16,10 +16,10 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { ColorColumn } from './columns';
+import { ProductColumn } from './columns';
 
 interface CellActionProps {
-	data: ColorColumn;
+	data: ProductColumn;
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
@@ -34,17 +34,17 @@ export const CellAction = ({ data }: CellActionProps) => {
 	};
 
 	const onUpdate = () => {
-		router.push(`/${params.storeId}/colors/${data.id}`);
+		router.push(`/${params.storeId}/products/${data.id}`);
 	};
 
 	const onDelete = async () => {
 		try {
 			setLoading(true);
-			await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+			await axios.delete(`/api/${params.storeId}/products/${data.id}`);
 			router.refresh();
-			toast.success('Size deleted.');
+			toast.success('Product deleted.');
 		} catch (error) {
-			toast.error('Make sure you removed all products using this color first.');
+			toast.error('Something went wrong.');
 		} finally {
 			setLoading(false);
 			setOpen(false);

@@ -30,7 +30,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 	const params = useParams();
 
 	const onCopy = () => {
-		copyClipboard(data.id, 'Id copied');
+		copyClipboard(data.id, 'id copied');
 	};
 
 	const onUpdate = () => {
