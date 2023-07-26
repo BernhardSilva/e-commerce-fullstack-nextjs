@@ -47,7 +47,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 		});
 
 		if (categoryFound) {
-			return new NextResponse('Category is duplicated, choose different name', { status: 400 });
+			return new NextResponse('Category is used, choose different name', { status: 400 });
 		}
 
 		const storeByUserId = await prismadb.store.findFirst({

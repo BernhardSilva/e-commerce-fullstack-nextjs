@@ -57,7 +57,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 		});
 
 		if (billboardFound) {
-			return new NextResponse('Billboard is duplicated, choose different name', { status: 400 });
+			return new NextResponse('Billboard is used, choose different label', { status: 400 });
 		}
 
 		const billboard = await prismadb.billboard.updateMany({

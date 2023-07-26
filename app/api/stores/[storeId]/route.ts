@@ -28,7 +28,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 		});
 
 		if (storeFound) {
-			return new NextResponse('Store is duplicated, choose a different name', { status: 400 });
+			return new NextResponse('Store is used, choose a different name', { status: 400 });
 		}
 
 		const store = await prismadb.store.updateMany({
