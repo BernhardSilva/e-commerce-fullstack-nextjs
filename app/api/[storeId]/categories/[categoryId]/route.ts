@@ -3,7 +3,6 @@ import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 export const GET = async (req: Request, { params }: { params: { categoryId: string } }) => {
-	
 	try {
 		if (!params.categoryId) {
 			return new NextResponse('Category id is required', { status: 400 });
@@ -46,7 +45,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			}
 		});
 
-		if (categoryFound) {
+		if (categoryFound && categoryFound.id !== params.categoryId) {
 			return new NextResponse('Category is used, choose different name', { status: 400 });
 		}
 

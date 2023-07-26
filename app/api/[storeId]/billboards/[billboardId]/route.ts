@@ -56,7 +56,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			}
 		});
 
-		if (billboardFound) {
+		if (billboardFound && billboardFound.id !== params.billboardId) {
 			return new NextResponse('Billboard is used, choose different label', { status: 400 });
 		}
 

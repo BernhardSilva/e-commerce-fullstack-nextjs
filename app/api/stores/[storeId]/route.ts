@@ -27,7 +27,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			}
 		});
 
-		if (storeFound) {
+		if (storeFound && storeFound.id !== params.storeId) {
 			return new NextResponse('Store is used, choose a different name', { status: 400 });
 		}
 
