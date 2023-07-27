@@ -40,7 +40,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 		const validationErrors = [
 			{ condition: !userId, message: 'Unauthenticated', status: 401 },
 			{ condition: !name, message: 'Name is required', status: 400 },
-			{ condition: !description, message: 'Description is required', status: 400 },
+			{ condition: description.length > 2000, message: 'Description must contain at most 2000 character(s).', status: 400 },
 			{ condition: !price, message: 'Price is required', status: 400 },
 			{ condition: !images || !images.length, message: 'Images are required', status: 400 },
 			{ condition: !categoryId, message: 'Category id is required', status: 400 },
