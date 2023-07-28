@@ -48,7 +48,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value, options }: ImageUplo
 			</div>
 			<CldUploadWidget
 				onUpload={onUpload}
-				uploadPreset='wdby685k'
+				uploadPreset='ecommerce-admin'
 				options={{ maxFiles: options?.maxFiles, maxFileSize: options?.maxFileSize }}
 			>
 				{({ open }) => {

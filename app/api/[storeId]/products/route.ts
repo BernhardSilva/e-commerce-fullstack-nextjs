@@ -12,13 +12,11 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			{ condition: !userId, message: 'Unauthenticated', status: 401 },
 			{ condition: !name, message: 'Name is required', status: 400 },
 			{ condition: !price, message: 'Price is required', status: 400 },
-			{ condition: !description, message: 'Description is required', status: 400 },
+			{ condition: description.length > 2000, message: 'Description must contain at most 2000 character(s).', status: 400 },
 			{ condition: !images || !images.length, message: 'Images are required', status: 400 },
 			{ condition: !categoryId, message: 'Category id is required', status: 400 },
 			{ condition: !colorId, message: 'Color id is required', status: 400 },
 			{ condition: !sizeId, message: 'Size id is required', status: 400 },
-			{ condition: !isFeatured, message: 'Featured is required', status: 400 },
-			{ condition: !isArchived, message: 'Archived is required', status: 400 },
 			{ condition: !params.storeId, message: 'Store id is required', status: 400 }
 		];
 
@@ -79,8 +77,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 	try {
 		const { searchParams } = new URL(req.url);
 		const categoryId = searchParams.get('categoryId') || undefined;
-		const colorId = searchParams.get('categoryId') || undefined;
-		const sizeId = searchParams.get('categoryId') || undefined;
+		const colorId = searchParams.get('colorId') || undefined;
+		const sizeId = searchParams.get('sizeId') || undefined;
 		const isFeatured = searchParams.get('isFeatured');
 
 		if (!params.storeId) {
