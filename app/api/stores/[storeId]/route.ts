@@ -1,5 +1,12 @@
 import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
+interface Store {
+	id: string;
+	name: string;
+	userId: string;
+	createdAt: Date;
+	updatedAt: Date;
+}
 import { NextResponse } from 'next/server';
 
 export const PATCH = async (req: Request, { params }: { params: { storeId: string } }) => {
@@ -82,7 +89,7 @@ export const GET = async (req: Request, { params }: { params: { storeId: string 
 			}
 		});
 
-		return NextResponse.json(store);
+		return NextResponse.json({ name: store?.name });
 	} catch (error) {
 		console.log('[STORE_GET]', error);
 		return new NextResponse('Internal error', { status: 500 });
