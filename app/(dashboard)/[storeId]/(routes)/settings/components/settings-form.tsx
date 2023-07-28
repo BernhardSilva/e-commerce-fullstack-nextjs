@@ -104,6 +104,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 				</form>
 			</Form>
 			<Separator />
+			<ApiALert title='GET' description={`${origin}/api/stores/{storeId}`} variant='public' />
 			<ApiALert title='NEXT_PUBLIC_API_URL' description={`${origin}/api/${params.storeId}`} variant='public' />
 		</>
 	);

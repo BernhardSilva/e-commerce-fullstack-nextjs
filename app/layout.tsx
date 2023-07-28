@@ -10,8 +10,8 @@ import { ThemeProvider } from '@/providers/theme-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'Admin Dashboard',
-	description: 'Admin Dashboard'
+	title: 'Store admin dashboard',
+	description: 'Store admin dashboard for manage created stores and get KPI etc.'
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

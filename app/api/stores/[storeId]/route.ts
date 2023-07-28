@@ -73,3 +73,18 @@ export const DELETE = async (req: Request, { params }: { params: { storeId: stri
 		return new NextResponse('Internal error', { status: 500 });
 	}
 };
+
+export const GET = async (req: Request, { params }: { params: { storeId: string } }) => {
+	try {
+		const store = await prismadb.store.findUnique({
+			where: {
+				id: params.storeId
+			}
+		});
+
+		return NextResponse.json(store);
+	} catch (error) {
+		console.log('[STORE_GET]', error);
+		return new NextResponse('Internal error', { status: 500 });
+	}
+};
