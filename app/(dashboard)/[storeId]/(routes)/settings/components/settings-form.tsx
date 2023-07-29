@@ -63,8 +63,10 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 			router.refresh();
 			router.push('/');
 			toast.success('Store deleted.');
-		} catch (error) {
-			toast.error('Make sure you removed all products and categories first');
+		} catch (error: any) {
+			// toast.error('Make sure you removed all billboards products and categories first');
+			toast.error(error.response.data);
+			console.error(error);
 		} finally {
 			setLoading(false);
 			setOpen(false);
@@ -73,7 +75,15 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 
 	return (
 		<>
-			<AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
+			<AlertModal
+				isOpen={open}
+				onClose={() => setOpen(false)}
+				onConfirm={onDelete}
+				loading={loading}
+				title={`You are trying to remove ${initialData.name} store.`}
+				message='If you want to permanently delete your store, you must delete all products and categories associated with this store.
+				If you are sure about this action, we advise you to reconsider, because this action cannot be undone.'
+			/>
 			<div className='flex items-center justify-between'>
 				<Heading title='Settings' description='Manage store preferences' />
 				<Button disabled={loading} variant='destructive' size='icon' onClick={() => setOpen(true)}>
