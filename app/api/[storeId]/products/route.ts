@@ -12,7 +12,11 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			{ condition: !userId, message: 'Unauthenticated', status: 401 },
 			{ condition: !name, message: 'Name is required', status: 400 },
 			{ condition: !price, message: 'Price is required', status: 400 },
-			{ condition: description.length > 2000, message: 'Description must contain at most 2000 character(s).', status: 400 },
+			{
+				condition: description.length > 2000,
+				message: 'Description must contain at most 2000 character(s).',
+				status: 400
+			},
 			{ condition: !images || !images.length, message: 'Images are required', status: 400 },
 			{ condition: !categoryId, message: 'Category id is required', status: 400 },
 			{ condition: !colorId, message: 'Color id is required', status: 400 },
@@ -79,6 +83,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 		const categoryId = searchParams.get('categoryId') || undefined;
 		const colorId = searchParams.get('colorId') || undefined;
 		const sizeId = searchParams.get('sizeId') || undefined;
+		const productName = searchParams.get('productName') || undefined;
 		const isFeatured = searchParams.get('isFeatured');
 
 		if (!params.storeId) {
@@ -91,6 +96,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 				categoryId,
 				colorId,
 				sizeId,
+				name: productName,
 				isFeatured: isFeatured ? true : undefined,
 				isArchived: false
 			},

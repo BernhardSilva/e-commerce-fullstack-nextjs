@@ -1,6 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { Check, FolderCheck, FolderOpen, X } from 'lucide-react';
 import { CellAction } from './cell-action';
 
 export type ProductColumn = {
@@ -44,11 +45,21 @@ export const columns: ColumnDef<ProductColumn>[] = [
 	},
 	{
 		accessorKey: 'isFeatured',
-		header: 'Featured'
+		header: 'Featured',
+		cell: ({ row }) => (
+			<div className='flex items-center gap-x-2'>
+				{row.original.isFeatured === true ? <Check color='green' /> : <X color='red' />}
+			</div>
+		)
 	},
 	{
 		accessorKey: 'isArchived',
-		header: 'Archived'
+		header: 'Archived',
+		cell: ({ row }) => (
+			<div className='flex items-center gap-x-2'>
+				{row.original.isArchived === true ? <FolderCheck color='orange' /> : <FolderOpen color='gray' />}
+			</div>
+		)
 	},
 	{
 		accessorKey: 'createdAt',
