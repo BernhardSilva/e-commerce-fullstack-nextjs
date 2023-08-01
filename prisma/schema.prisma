@@ -20,6 +20,7 @@ model Store {
   sizes Size[] @relation("StoreToSize")
   colors Color[] @relation("StoreToColor")
   products Product[] @relation("StoreToProduct")
+  stocks Stock[]  @relation("StoreToStock")
   orders Order[] @relation("StoreToOrder")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,7 +88,6 @@ model Product {
   category Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name String
   price Decimal
-  quanity Int @default(0)
   description String @db.VarChar(2000) @default("")
   isFeatured Boolean @default(false)
   isArchived Boolean @default(false)
@@ -96,6 +96,7 @@ model Product {
   colorId String
   color Color @relation(fields: [colorId], references: [id])
   images Image[]
+  stock Stock[]
   orderItems OrderItem[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -105,7 +106,18 @@ model Product {
   @@index([sizeId])
   @@index([colorId])
 }
-
+model Stock {
+  id String @id @default(uuid())
+  storeId String
+  store     Store @relation("StoreToStock", fields: [storeId], references: [id])
+  productId String @unique
+  product Product @relation(fields: [productId], references: [id])
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([storeId])
+  @@index([productId])
+}
 model Image {
   id String @id @default(uuid())
   productId String
@@ -122,9 +134,12 @@ model Order {
   storeId String
   store Store @relation("StoreToOrder", fields: [storeId], references: [id])
   orderItems OrderItem[]
-  isPaid Boolean @default(false)
+  customer String @default("")
+  email String @default("")
   phone String  @default("")
   address String @default("")
+  isPaid Boolean @default(false)
+  isRefunded Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -134,7 +149,8 @@ model Order {
 model OrderItem {
   id String @id @default(uuid())
   orderId String
-  order Order @relation(fields: [orderId], references: [id])
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  quantity Int
   productId String
   product Product @relation(fields: [productId], references: [id])
 

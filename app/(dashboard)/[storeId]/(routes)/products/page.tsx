@@ -6,7 +6,6 @@ import { ProductClient } from './components/client';
 import { ProductColumn } from './components/columns';
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
-	
 	const products = await prismadb.product.findMany({
 		where: {
 			storeId: params.storeId
@@ -14,7 +13,8 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
 		include: {
 			category: true,
 			size: true,
-			color: true
+			color: true,
+			stock: true
 		},
 		orderBy: {
 			createdAt: 'desc'
@@ -29,6 +29,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
 		category: item.category.name,
 		color: item.color.value,
 		size: item.size.name,
+		stock: item.stock[0]?.quantity.toString(),
 		isFeatured: item.isFeatured,
 		isArchived: item.isArchived,
 		createdAt: format(item.createdAt, 'MMMM do, yyyy')

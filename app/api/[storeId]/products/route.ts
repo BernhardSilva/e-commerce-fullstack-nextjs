@@ -6,7 +6,20 @@ import prismadb from '@/lib/prismadb';
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
 	try {
 		const { userId } = auth();
-		const { name, price, description, images, categoryId, colorId, sizeId, isFeatured, isArchived } = await req.json();
+		const {
+			name,
+			price,
+			description,
+			images,
+			categoryId,
+			colorId,
+			sizeId,
+			isFeatured,
+			isArchived,
+			stock: stockObj
+		} = await req.json();
+
+		const isFeaturedBool = stockObj.stockQuantity === 0 ? false : isFeatured;
 
 		const validationErrors = [
 			{ condition: !userId, message: 'Unauthenticated', status: 401 },
@@ -59,14 +72,25 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 				categoryId,
 				colorId,
 				sizeId,
-				isFeatured,
+				isFeatured: isFeaturedBool,
 				isArchived,
 				storeId: params.storeId,
 				images: {
 					createMany: {
 						data: [...images.map((image: { url: string }) => image)]
 					}
+				},
+				stock: {
+					createMany: {
+						data: {
+							storeId: params.storeId,
+							quantity: stockObj.stockQuantity
+						}
+					}
 				}
+			},
+			include: {
+				stock: true
 			}
 		});
 
@@ -104,7 +128,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 				images: true,
 				category: true,
 				color: true,
-				size: true
+				size: true,
+				stock: true
 			},
 			orderBy: {
 				createdAt: 'desc'

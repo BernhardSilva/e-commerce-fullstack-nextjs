@@ -2,7 +2,7 @@
 
 import { Separator } from '@/components/ui/separator';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category, Color, Image, Product, Size } from '@prisma/client';
+import { Category, Color, Image, Product, Size, Stock } from '@prisma/client';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -29,6 +29,7 @@ const formSchema = z.object({
 	categoryId: z.string().min(1),
 	colorId: z.string().min(1),
 	sizeId: z.string().min(1),
+	stock: z.coerce.number().min(0),
 	isFeatured: z.boolean().default(false).optional(),
 	isArchived: z.boolean().default(false).optional()
 });
@@ -39,14 +40,17 @@ interface ProductFormProps {
 	initialData:
 		| (Product & {
 				images: Image[];
+				stock: Stock[];
 		  })
 		| null;
+
 	categories: Category[] | null;
 	colors: Color[] | null;
 	sizes: Size[] | null;
 }
 
 export const ProductForm = ({ initialData, categories, colors, sizes }: ProductFormProps) => {
+	console.log('🚀 ~ file: product-form.tsx:53 ~ ProductForm ~ initialData:', initialData);
 	const params = useParams();
 	const router = useRouter();
 
@@ -67,7 +71,8 @@ export const ProductForm = ({ initialData, categories, colors, sizes }: ProductF
 		defaultValues: initialData
 			? {
 					...initialData,
-					price: parseFloat(String(initialData?.price))
+					price: parseFloat(String(initialData?.price)),
+					stock: parseInt(String(initialData?.stock[0]?.quantity))
 			  }
 			: {
 					name: '',
@@ -76,6 +81,7 @@ export const ProductForm = ({ initialData, categories, colors, sizes }: ProductF
 					categoryId: '',
 					colorId: '',
 					sizeId: '',
+					stock: 0,
 					isFeatured: false,
 					isArchived: false,
 					images: []
@@ -83,12 +89,22 @@ export const ProductForm = ({ initialData, categories, colors, sizes }: ProductF
 	});
 
 	const onSubmit = async (data: ProductFormValues) => {
+		let mappedData = {
+			...data,
+			stock: {
+				stockId: initialData?.stock[0]?.id,
+				stockQuantity: data.stock
+			}
+		};
+
+		console.log(mappedData);
+
 		try {
 			setLoading(true);
 			if (initialData) {
-				await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
+				await axios.patch(`/api/${params.storeId}/products/${params.productId}`, mappedData);
 			} else {
-				await axios.post(`/api/${params.storeId}/products`, data);
+				await axios.post(`/api/${params.storeId}/products`, mappedData);
 			}
 			router.refresh();
 			goBack();
@@ -176,6 +192,19 @@ export const ProductForm = ({ initialData, categories, colors, sizes }: ProductF
 									<FormLabel>Price</FormLabel>
 									<FormControl>
 										<Input disabled={loading} placeholder='9.99' type='number' {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							name='stock'
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Stock</FormLabel>
+									<FormControl>
+										<Input disabled={loading} placeholder='0' type='number' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

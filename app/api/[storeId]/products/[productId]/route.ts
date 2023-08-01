@@ -16,7 +16,8 @@ export const GET = async (req: Request, { params }: { params: { productId: strin
 				images: true,
 				category: true,
 				color: true,
-				size: true
+				size: true,
+				stock: true
 			}
 		});
 
@@ -31,16 +32,33 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 	try {
 		const { userId } = auth();
 
-		const { name, price, description, images, categoryId, colorId, sizeId, isFeatured, isArchived } = await req.json();
+		const {
+			name,
+			price,
+			description,
+			images,
+			categoryId,
+			colorId,
+			sizeId,
+			isFeatured,
+			isArchived,
+			stock: stockObj
+		} = await req.json();
 
 		if (!userId) {
 			return new NextResponse('Unauthenticated', { status: 401 });
 		}
 
+		const isFeaturedBool = stockObj.stockQuantity === 0 ? false : isFeatured;
+
 		const validationErrors = [
 			{ condition: !userId, message: 'Unauthenticated', status: 401 },
 			{ condition: !name, message: 'Name is required', status: 400 },
-			{ condition: description.length > 2000, message: 'Description must contain at most 2000 character(s).', status: 400 },
+			{
+				condition: description.length > 2000,
+				message: 'Description must contain at most 2000 character(s).',
+				status: 400
+			},
 			{ condition: !price, message: 'Price is required', status: 400 },
 			{ condition: !images || !images.length, message: 'Images are required', status: 400 },
 			{ condition: !categoryId, message: 'Category id is required', status: 400 },
@@ -77,7 +95,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 			return new NextResponse('Product is used, choose different name', { status: 400 });
 		}
 
-		await prismadb.product.update({
+		const product = await prismadb.product.update({
 			where: {
 				id: params.productId
 			},
@@ -88,23 +106,22 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
 				categoryId,
 				colorId,
 				sizeId,
-				isFeatured,
+				isFeatured: isFeaturedBool,
 				isArchived,
 				storeId: params.storeId,
 				images: {
-					deleteMany: {}
-				}
-			}
-		});
-
-		const product = await prismadb.product.update({
-			where: {
-				id: params.productId
-			},
-			data: {
-				images: {
+					deleteMany: {},
 					createMany: {
 						data: [...images.map((image: { url: string }) => image)]
+					}
+				},
+				stock: {
+					updateMany: {
+						where: { id: stockObj.stockId },
+						data: {
+							storeId: params.storeId,
+							quantity: stockObj.stockQuantity
+						}
 					}
 				}
 			}

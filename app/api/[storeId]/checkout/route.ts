@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 
 import { stripe } from '@/lib/stripe';
 import prismadb from '@/lib/prismadb';
+import { Product } from '@prisma/client';
 
 const corsHeaders = {
 	'Access-Control-Allow-Origin': '*',
@@ -14,53 +15,75 @@ export async function OPTIONS() {
 	return NextResponse.json({}, { headers: corsHeaders });
 }
 
+interface ProductCheckout extends Product {
+	quantityItem: number;
+}
+
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
-	const { productIds } = await req.json();
+	const { items } = await req.json();
+	const productsArray: ProductCheckout[] = items;
+	console.log('🚀 ~ file: route.ts:23 ~ productsArray ~ productsArray:', productsArray);
 
-	if (!productIds || productIds.length === 0) {
-		return new NextResponse('Product ids are required', { status: 400 });
+	console.log('🚀 ~ file: route.ts:20 ~ POST ~ items:', items);
+	// console.log('🚀 ~ file: route.ts:19 ~ POST ~ productIds:', productIds);
+
+	if (!productsArray || productsArray.length === 0) {
+		return new NextResponse('Products are required', { status: 400 });
 	}
+	console.log('🚀 ~ file: route.ts:31 ~ POST ~ productsArray.length :', productsArray.length);
 
-	const products = await prismadb.product.findMany({
-		where: {
-			id: {
-				in: productIds
-			}
-		}
-	});
+	// const products = await prismadb.product.findMany({
+	// 	where: {
+	// 		id: {}
+	// 	}
+	// });
+
+	//Insert quantities into products
+	// const productsMapped = products.map((product, index) => ({
+	// 	...product,
+	// 	quantity: quantities[index]
+	// }));
 
 	const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-	products.forEach((product) => {
+	productsArray.forEach((product: ProductCheckout) => {
 		line_items.push({
-			quantity: 1,
+			quantity: product.quantityItem,
 			price_data: {
 				currency: 'USD',
 				product_data: {
 					name: product.name
 				},
-				unit_amount: product.price.toNumber() * 100
+				//because it's decimal we do *100
+				unit_amount: Math.round(Number(product.price) * 100)
 			}
 		});
 	});
+
+	console.log(line_items);
 
 	const order = await prismadb.order.create({
 		data: {
 			storeId: params.storeId,
 			isPaid: false,
 			orderItems: {
-				create: productIds.map((productId: string) => ({
+				create: productsArray.map((product) => ({
 					product: {
 						connect: {
-							id: productId
+							id: product.id
 						}
-					}
+					},
+					quantity: product.quantityItem
 				}))
 			}
+		},
+		include: {
+			orderItems: true
 		}
 	});
+	console.log('🚀 ~ file: route.ts:69 ~ POST ~ order:', order);
 
-	const session = await stripe.checkout.sessions.create({
+	const sessionCheckout = await stripe.checkout.sessions.create({
 		line_items,
 		mode: 'payment',
 		billing_address_collection: 'required',
@@ -75,7 +98,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 	});
 
 	return NextResponse.json(
-		{ url: session.url },
+		{ url: sessionCheckout.url },
 		{
 			headers: corsHeaders
 		}
