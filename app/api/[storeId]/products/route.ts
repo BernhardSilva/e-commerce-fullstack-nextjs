@@ -15,7 +15,8 @@ const headers: Record<string, string> = {
 	'Content-Type': 'application/json'
 };
 
-if (process.env.NODE_ENV === 'production' && process.env.WHITE_LIST_URL) {
+if (process.env.WHITE_LIST_URL) {
+	console.log("🚀 ~ file: route.ts:19 ~ process.env.NODE_ENV:", process.env.NODE_ENV)
 	headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
 } else {
 	headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
