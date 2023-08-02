@@ -104,39 +104,61 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
 	try {
 		const { searchParams } = new URL(req.url);
-		const categoryId = searchParams.get('categoryId') || undefined;
-		const colorId = searchParams.get('colorId') || undefined;
-		const sizeId = searchParams.get('sizeId') || undefined;
-		const productName = searchParams.get('productName') || undefined;
-		const isFeatured = searchParams.get('isFeatured');
+		const categoryId = searchParams?.get('categoryId') || undefined;
+		const colorId = searchParams?.get('colorId') || undefined;
+		const sizeId = searchParams?.get('sizeId') || undefined;
+		const productName = searchParams?.get('productName') || undefined;
+		const isFeatured = searchParams?.get('isFeatured');
 
 		if (!params.storeId) {
 			return new NextResponse('Store id is required', { status: 400 });
 		}
 
-		const products = await prismadb.product.findMany({
-			where: {
-				storeId: params.storeId,
-				categoryId,
-				colorId,
-				sizeId,
-				name: productName,
-				isFeatured: isFeatured ? true : undefined,
-				isArchived: false
-			},
-			include: {
-				images: true,
-				category: true,
-				color: true,
-				size: true,
-				stock: true
-			},
-			orderBy: {
-				createdAt: 'desc'
-			}
-		});
+		if (productName) {
+			const products = await prisma?.product.findMany({
+				where: {
+					storeId: params.storeId,
+					name: {
+						contains: productName
+					},
+					isFeatured: isFeatured ? true : undefined,
+					isArchived: false
+				},
+				orderBy: {
+					createdAt: 'desc'
+				},
+				select: {
+					id: true,
+					name: true
+				}
+			});
 
-		return NextResponse.json(products);
+			return NextResponse.json(products, { status: 200 });
+		} else {
+			const products = await prismadb.product.findMany({
+				where: {
+					storeId: params.storeId,
+					categoryId,
+					colorId,
+					sizeId,
+					name: productName,
+					isFeatured: isFeatured ? true : undefined,
+					isArchived: false
+				},
+				include: {
+					images: true,
+					category: true,
+					color: true,
+					size: true,
+					stock: true
+				},
+				orderBy: {
+					createdAt: 'desc'
+				}
+			});
+
+			return NextResponse.json(products, { status: 200 });
+		}
 	} catch (error) {
 		console.log('[PRODUCTS_GET]', error);
 		return new NextResponse('Internal error', { status: 500 });

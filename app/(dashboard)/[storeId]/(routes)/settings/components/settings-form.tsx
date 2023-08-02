@@ -15,9 +15,9 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
-import { useOrigin } from '@/hooks/use-origin';
 import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { useOrigin } from '@/hooks/use-origin';
 
 interface SettingsFormProps {
 	initialData: Store;
