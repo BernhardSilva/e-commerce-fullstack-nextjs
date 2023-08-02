@@ -3,7 +3,19 @@ import { NextResponse } from 'next/server';
 
 import prismadb from '@/lib/prismadb';
 
-export async function POST(req: Request, { params }: { params: { storeId: string } }) {
+interface Props {
+	params: {
+		storeId: string;
+	};
+}
+
+const headers = {
+	'Access-Control-Allow-Methods': '*',
+	'Access-Control-Allow-Credentials': 'true',
+	'Access-Control-Allow-Origin': process.env.WHITE_LIST_URL || 'http://localhost:3001'
+};
+
+export async function POST(req: Request, { params }: Props) {
 	try {
 		const { userId } = auth();
 		const {
@@ -101,7 +113,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 	}
 }
 
-export async function GET(req: Request, { params }: { params: { storeId: string } }) {
+export async function GET(req: Request, { params }: Props) {
 	try {
 		const { searchParams } = new URL(req.url);
 		const categoryId = searchParams?.get('categoryId') || undefined;
@@ -136,7 +148,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 				}
 			});
 
-			return NextResponse.json(products, { status: 200 });
+			return NextResponse.json(products, { headers, status: 200 });
 		} else {
 			const products = await prismadb.product.findMany({
 				where: {
@@ -144,7 +156,6 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 					categoryId,
 					colorId,
 					sizeId,
-					name: productName,
 					isFeatured: isFeatured ? true : undefined,
 					isArchived: false
 				},
