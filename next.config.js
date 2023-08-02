@@ -4,7 +4,6 @@ const nextConfig = {
 		locales: ['en'],
 		defaultLocale: 'en'
 	},
-	reactStrictMode: true,
 	compiler: {
 		removeConsole: process.env.NODE_ENV === 'production'
 	},
