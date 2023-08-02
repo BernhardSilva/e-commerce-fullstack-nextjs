@@ -9,13 +9,15 @@ interface Props {
 	};
 }
 
-const headers = {
+const headers: Record<string, string> = {
 	'Access-Control-Allow-Methods': '*',
 	'Access-Control-Allow-Credentials': 'true',
-	'Access-Control-Allow-Origin': process.env.WHITE_LIST_URL || 'http://localhost:3001'
+	'Content-Type': 'application/json'
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.WHITE_LIST_URL) {
+	headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
+} else {
 	headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
 }
 
