@@ -15,6 +15,10 @@ const headers = {
 	'Access-Control-Allow-Origin': process.env.WHITE_LIST_URL || 'http://localhost:3001'
 };
 
+if (process.env.NODE_ENV !== 'production') {
+	headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
+}
+
 export async function POST(req: Request, { params }: Props) {
 	try {
 		const { userId } = auth();
