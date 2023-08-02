@@ -16,6 +16,7 @@ const headers: Record<string, string> = {
 };
 
 if (process.env.WHITE_LIST_URL) {
+	console.log("🚀 ~ file: route.ts:19 ~ process.env.WHITE_LIST_URL:", process.env.WHITE_LIST_URL)
 	console.log("🚀 ~ file: route.ts:19 ~ process.env.NODE_ENV:", process.env.NODE_ENV)
 	headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
 } else {
