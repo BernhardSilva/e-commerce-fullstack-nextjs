@@ -114,6 +114,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 			return new NextResponse('Store id is required', { status: 400 });
 		}
 
+		const maxResult = 20;
+
 		if (productName) {
 			const products = await prisma?.product.findMany({
 				where: {
@@ -127,6 +129,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 				orderBy: {
 					createdAt: 'desc'
 				},
+				take: maxResult,
 				select: {
 					id: true,
 					name: true
