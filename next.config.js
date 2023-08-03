@@ -4,9 +4,18 @@ const nextConfig = {
 		locales: ['en'],
 		defaultLocale: 'en'
 	},
+	reactStrictMode: true,
 	// compiler: {
 	// 	removeConsole: process.env.NODE_ENV === 'production'
 	// },
+	async rewrites() {
+		return [
+			{
+				source: '/app/api/:path*',
+				destination: `${process.env.WHITE_LIST_URL}/:path*`
+			}
+		];
+	},
 	images: {
 		domains: ['res.cloudinary.com']
 	}

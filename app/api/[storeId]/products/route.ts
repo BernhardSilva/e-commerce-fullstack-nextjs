@@ -1,6 +1,5 @@
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
-
 import prismadb from '@/lib/prismadb';
 
 interface Props {
@@ -123,7 +122,7 @@ export async function GET(req: Request, { params }: Props) {
 		const maxResult = 20;
 
 		if (productName) {
-			const products = await prisma?.product.findMany({
+			const products = await prismadb.product.findMany({
 				where: {
 					storeId: params.storeId,
 					name: {
@@ -156,12 +155,11 @@ export async function GET(req: Request, { params }: Props) {
 			};
 
 			if (process.env.WHITE_LIST_URL && process.env.NODE_ENV === 'production') {
-				headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
-			} else {
-				headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
+				headers['access-control-allow-origin'] = process.env.WHITE_LIST_URL;
 			}
 			console.log('🚀 WHITE_LIST_URL:', process.env.WHITE_LIST_URL);
 			console.log('🚀 NODE_ENV:', process.env.NODE_ENV);
+			console.log('🚀 ~ file: route.ts:145 ~ GET ~ headers:', headers);
 
 			return NextResponse.json(products, { headers, status: 200 });
 		} else {
