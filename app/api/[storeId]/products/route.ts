@@ -9,20 +9,6 @@ interface Props {
 	};
 }
 
-const headers: Record<string, string> = {
-	'Access-Control-Allow-Methods': '*',
-	'Access-Control-Allow-Credentials': 'true',
-	'Content-Type': 'application/json'
-};
-
-if (process.env.WHITE_LIST_URL) {
-	console.log("🚀 ~ file: route.ts:19 ~ process.env.WHITE_LIST_URL:", process.env.WHITE_LIST_URL)
-	console.log("🚀 ~ file: route.ts:19 ~ process.env.NODE_ENV:", process.env.NODE_ENV)
-	headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
-} else {
-	headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
-}
-
 export async function POST(req: Request, { params }: Props) {
 	try {
 		const { userId } = auth();
@@ -155,6 +141,27 @@ export async function GET(req: Request, { params }: Props) {
 					name: true
 				}
 			});
+
+			const headers: Record<string, string> = {
+				...{
+					vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
+					'access-control-allow': 'true',
+					'access-control-allow-origin': 'http://localhost:3001',
+					'content-type': 'application/json',
+					connection: 'close',
+					'transfer-encoding': 'chunked',
+					'access-control-allow-credentials': 'true',
+					'access-control-allow-methods': '*'
+				}
+			};
+
+			if (process.env.WHITE_LIST_URL && process.env.NODE_ENV === 'production') {
+				headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
+			} else {
+				headers['Access-Control-Allow-Origin'] = 'http://localhost:3001';
+			}
+			console.log('🚀 WHITE_LIST_URL:', process.env.WHITE_LIST_URL);
+			console.log('🚀 NODE_ENV:', process.env.NODE_ENV);
 
 			return NextResponse.json(products, { headers, status: 200 });
 		} else {
