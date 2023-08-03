@@ -154,12 +154,9 @@ export async function GET(req: Request, { params }: Props) {
 				}
 			};
 
-			if (process.env.WHITE_LIST_URL && process.env.NODE_ENV === 'production') {
-				headers['access-control-allow-origin'] = process.env.WHITE_LIST_URL;
+			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
+				headers['access-control-allow-origin'] = process.env.FRONTEND_STORE_URL;
 			}
-			console.log('🚀 WHITE_LIST_URL:', process.env.WHITE_LIST_URL);
-			console.log('🚀 NODE_ENV:', process.env.NODE_ENV);
-			console.log('🚀 ~ file: route.ts:145 ~ GET ~ headers:', headers);
 
 			return NextResponse.json(products, { headers, status: 200 });
 		} else {
