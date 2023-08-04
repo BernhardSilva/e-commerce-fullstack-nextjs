@@ -153,7 +153,6 @@ export async function GET(req: Request, { params }: Props) {
 						'Access-Control-Allow': 'true',
 						'Access-Control-Allow-Origin': '*',
 						'Content-Type': 'application/json',
-						'connection': 'close',
 						'Transfer-Encoding': 'chunked',
 						'Access-Control-Allow-Credentials': 'true',
 						'Access-Control-Allow-Methods': '*',
