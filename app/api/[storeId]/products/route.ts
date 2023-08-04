@@ -139,19 +139,7 @@ export async function GET(req: Request, { params }: Props) {
 				take: maxResult,
 				select: {
 					id: true,
-					name: true,
-					images: {
-						select: {
-							id: true,
-							url: true
-						},
-						where: {
-							url: {
-								not: undefined
-							}
-						},
-						take: 1
-					}
+					name: true
 				}
 			});
 
@@ -159,25 +147,21 @@ export async function GET(req: Request, { params }: Props) {
 
 			const headers: Record<string, string> = {
 				...{
-					'Access-Control-Allow': 'true',
-					'Access-Control-Allow-Credentials': 'true',
-					'Access-Control-Allow-Methods': '*',
-					'Access-Control-Allow-Origin': 'https://e-commerce-cms-client.vercel.app',
-					'Age': '0',
-					'Cache-Control': 'public, max-age=0, must-revalidate',
-					'Content-Encoding': 'br',
-					'Content-Type': 'application/json',
-					'Server': 'Vercel',
-					'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-					'Vary': 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, RSC, Next-Router-State-Tree, Next-Router-Prefetch, RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
-					'X-Matched-Path': '/api/[storeId]/products',
-					'X-Vercel-Cache': 'MISS',
-					'X-Vercel-Execution-Region': 'iad1'
+					...{
+						vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
+						'access-control-allow': 'true',
+						'access-control-allow-origin': 'http://localhost:3001',
+						'content-type': 'application/json',
+						connection: 'close',
+						'transfer-encoding': 'chunked',
+						'access-control-allow-credentials': 'true',
+						'access-control-allow-methods': '*'
+					}
 				}
 			};
 
 			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
-				headers['Access-Control-Allow-Origin'] = process.env.FRONTEND_STORE_URL;
+				headers['access-aontrol-allow-origin'] = process.env.FRONTEND_STORE_URL;
 			}
 			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
 
