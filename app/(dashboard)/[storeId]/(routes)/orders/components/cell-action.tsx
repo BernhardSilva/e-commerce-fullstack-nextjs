@@ -38,10 +38,8 @@ export const CellAction = ({ data }: CellActionProps) => {
 			setLoading(true);
 			await axios.delete(`/api/${params.storeId}/orders/${data.id}`);
 			router.refresh();
-			console.log("🚀 ~ file: cell-action.tsx:41 ~ onDelete ~ data.id:", data.id)
 			toast.success('Order deleted.');
 		} catch (error) {
-			console.log("🚀 ~ file: cell-action.tsx:43 ~ onDelete ~ error:", error)
 			toast.error('Make sure you removed all products using this color first.');
 		} finally {
 			setLoading(false);

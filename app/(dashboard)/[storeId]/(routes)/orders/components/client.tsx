@@ -20,10 +20,6 @@ export const OrderClient = ({ data }: OrderClientProps) => {
 		<>
 			<div className='flex items-center justify-between'>
 				<Heading title={`Orders: (${data.length})`} description='Manage orders for your store' />
-				<Button onClick={() => router.push(`/${params.storeId}/orders/new`)}>
-					<Plus className='mr-2 h-4 w-4' />
-					Add new
-				</Button>
 			</div>
 			<Separator />
 			<DataTable searchKey='products' columns={columns} data={data} />

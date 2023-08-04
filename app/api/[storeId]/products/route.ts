@@ -123,6 +123,7 @@ export async function GET(req: Request, { params }: Props) {
 		const maxResult = 20;
 
 		if (productName) {
+			console.log('🚀 ~ file: route.ts:126 ~ GET ~ productName:', productName);
 			const products = await prismadb.product.findMany({
 				where: {
 					storeId: params.storeId,
@@ -154,6 +155,8 @@ export async function GET(req: Request, { params }: Props) {
 				}
 			});
 
+			console.log(JSON.stringify(products));
+
 			const headers: Record<string, string> = {
 				...{
 					vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
@@ -170,6 +173,7 @@ export async function GET(req: Request, { params }: Props) {
 			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
 				headers['access-control-allow-origin'] = process.env.FRONTEND_STORE_URL;
 			}
+			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
 
 			return NextResponse.json(products, { headers, status: 200 });
 		} else {
