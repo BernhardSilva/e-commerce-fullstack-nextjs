@@ -151,7 +151,7 @@ export async function GET(req: Request, { params }: Props) {
 					...{
 						'vary': 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
 						'Access-Control-Allow': 'true',
-						'Access-Control-Allow-Origin': 'http://localhost:3001',
+						'Access-Control-Allow-Origin': '*',
 						'Content-Type': 'application/json',
 						'connection': 'close',
 						'Transfer-Encoding': 'chunked',
