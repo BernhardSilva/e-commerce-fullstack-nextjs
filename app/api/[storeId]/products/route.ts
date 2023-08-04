@@ -1,7 +1,6 @@
+import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
-import prismadb from '@/lib/prismadb';
-import { Select } from '@radix-ui/react-select';
 
 interface Props {
 	params: {
@@ -161,7 +160,7 @@ export async function GET(req: Request, { params }: Props) {
 			};
 
 			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
-				headers['access-aontrol-allow-origin'] = process.env.FRONTEND_STORE_URL;
+				headers['access-control-allow-origin'] = process.env.FRONTEND_STORE_URL;
 			}
 			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
 
