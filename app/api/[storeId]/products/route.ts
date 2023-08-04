@@ -161,7 +161,7 @@ export async function GET(req: Request, { params }: Props) {
 			};
 
 			if (process.env.WHITE_LIST_URL && process.env.NODE_ENV === 'production') {
-				headers['access-control-allow-origin'] = process.env.WHITE_LIST_URL;
+				headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
 			}
 			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
 
