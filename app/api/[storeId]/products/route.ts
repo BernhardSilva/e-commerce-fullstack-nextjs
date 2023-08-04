@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import prismadb from '@/lib/prismadb';
+import { Select } from '@radix-ui/react-select';
 
 interface Props {
 	params: {
@@ -137,7 +138,19 @@ export async function GET(req: Request, { params }: Props) {
 				take: maxResult,
 				select: {
 					id: true,
-					name: true
+					name: true,
+					images: {
+						select: {
+							id: true,
+							url: true
+						},
+						where: {
+							url: {
+								not: undefined
+							}
+						},
+						take: 1
+					}
 				}
 			});
 
