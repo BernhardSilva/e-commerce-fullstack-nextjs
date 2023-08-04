@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 import { stripe } from '@/lib/stripe';
 import prismadb from '@/lib/prismadb';
-import { Product } from '@prisma/client';
+import { Product, Stock } from '@prisma/client';
 
 const corsHeaders = {
 	'Access-Control-Allow-Origin': '*',
@@ -17,6 +17,7 @@ export async function OPTIONS() {
 
 interface ProductCheckout extends Product {
 	quantityItem: number;
+	stock: Stock[];
 }
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
@@ -96,6 +97,21 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			orderId: order.id
 		}
 	});
+	console.log('🚀 ~ file: route.ts:99 ~ POST ~ sessionCheckout:', sessionCheckout);
+
+	if (sessionCheckout) {
+		for (const product of productsArray) {
+			await prismadb.stock.updateMany({
+				where: {
+					storeId: params.storeId,
+					productId: product.id
+				},
+				data: {
+					quantity: product.stock[0].quantity - product.quantityItem
+				}
+			});
+		}
+	}
 
 	return NextResponse.json(
 		{ url: sessionCheckout.url },

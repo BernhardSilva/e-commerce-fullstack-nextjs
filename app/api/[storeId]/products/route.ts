@@ -153,7 +153,6 @@ export async function GET(req: Request, { params }: Props) {
 				take: maxResult
 			});
 
-			console.log('🚀 ~ file: route.ts:125 ~ GET ~ products:', products);
 			return NextResponse.json(products, {
 				status: 200,
 				headers: {
