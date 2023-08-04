@@ -136,10 +136,7 @@ export async function GET(req: Request, { params }: Props) {
 					createdAt: 'desc'
 				},
 				take: maxResult,
-				select: {
-					id: true,
-					name: true
-				}
+				
 			});
 
 			console.log('🚀 ~ file: route.ts:165 ~ GET ~ products:', products);
@@ -153,8 +150,8 @@ export async function GET(req: Request, { params }: Props) {
 				status: 200,
 				headers: {
 					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-					'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+					'Access-Control-Allow-Methods': '*',
+					'Access-Control-Allow-Headers': '*'
 				}
 			});
 		} else {
