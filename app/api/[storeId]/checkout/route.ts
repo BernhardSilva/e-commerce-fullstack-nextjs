@@ -97,22 +97,20 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			orderId: order.id
 		}
 	});
+	
 	console.log('🚀 ~ file: route.ts:99 ~ POST ~ sessionCheckout:', sessionCheckout);
 
-	if (sessionCheckout) {
-		const updatedStockOfProducts = productsArray.forEach(async (product) => {
-			await prismadb.stock.updateMany({
-				where: {
-					storeId: params.storeId,
-					productId: product.id
-				},
-				data: {
-					quantity: product.stock[0].quantity - product.quantityItem
-				}
-			});
+	productsArray.forEach(async (product) => {
+		await prismadb.stock.updateMany({
+			where: {
+				storeId: params.storeId,
+				productId: product.id
+			},
+			data: {
+				quantity: product.stock[0].quantity - product.quantityItem
+			}
 		});
-		console.log(updatedStockOfProducts);
-	}
+	});
 
 	return NextResponse.json(
 		{ url: sessionCheckout.url },
