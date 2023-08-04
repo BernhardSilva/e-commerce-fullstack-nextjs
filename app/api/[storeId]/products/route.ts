@@ -159,7 +159,7 @@ export async function GET(req: Request, { params }: Props) {
 
 			const headers: Record<string, string> = {
 				...{
-					vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
+					vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
 					'access-control-allow': 'true',
 					'access-control-allow-origin': 'http://localhost:3001',
 					'content-type': 'application/json',
