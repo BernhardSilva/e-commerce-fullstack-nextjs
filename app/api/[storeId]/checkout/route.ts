@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
 
-import { stripe } from '@/lib/stripe';
 import prismadb from '@/lib/prismadb';
-import { Product, Stock } from '@prisma/client';
+import { stripe } from '@/lib/stripe';
+import { Product } from '@prisma/client';
 
 const corsHeaders = {
 	'Access-Control-Allow-Origin': '*',
@@ -17,7 +17,6 @@ export async function OPTIONS() {
 
 interface ProductCheckout extends Product {
 	quantityItem: number;
-	stock: Stock[];
 }
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
@@ -32,18 +31,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 		return new NextResponse('Products are required', { status: 400 });
 	}
 	console.log('🚀 ~ file: route.ts:31 ~ POST ~ productsArray.length :', productsArray.length);
-
-	// const products = await prismadb.product.findMany({
-	// 	where: {
-	// 		id: {}
-	// 	}
-	// });
-
-	//Insert quantities into products
-	// const productsMapped = products.map((product, index) => ({
-	// 	...product,
-	// 	quantity: quantities[index]
-	// }));
 
 	const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
@@ -97,20 +84,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 			orderId: order.id
 		}
 	});
-	
 	console.log('🚀 ~ file: route.ts:99 ~ POST ~ sessionCheckout:', sessionCheckout);
-
-	productsArray.forEach(async (product) => {
-		await prismadb.stock.updateMany({
-			where: {
-				storeId: params.storeId,
-				productId: product.id
-			},
-			data: {
-				quantity: product.stock[0].quantity - product.quantityItem
-			}
-		});
-	});
 
 	return NextResponse.json(
 		{ url: sessionCheckout.url },
