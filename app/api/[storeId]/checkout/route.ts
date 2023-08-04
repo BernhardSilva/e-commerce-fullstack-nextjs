@@ -100,7 +100,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 	console.log('🚀 ~ file: route.ts:99 ~ POST ~ sessionCheckout:', sessionCheckout);
 
 	if (sessionCheckout) {
-		for (const product of productsArray) {
+		const updatedStockOfProducts = productsArray.forEach(async (product) => {
 			await prismadb.stock.updateMany({
 				where: {
 					storeId: params.storeId,
@@ -110,7 +110,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 					quantity: product.stock[0].quantity - product.quantityItem
 				}
 			});
-		}
+		});
+		console.log(updatedStockOfProducts);
 	}
 
 	return NextResponse.json(
