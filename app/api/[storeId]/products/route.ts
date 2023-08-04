@@ -122,7 +122,6 @@ export async function GET(req: Request, { params }: Props) {
 		const maxResult = 20;
 
 		if (productName) {
-			console.log('🚀 ~ file: route.ts:126 ~ GET ~ productName:', productName);
 			const products = await prismadb.product.findMany({
 				where: {
 					storeId: params.storeId,
@@ -135,17 +134,26 @@ export async function GET(req: Request, { params }: Props) {
 				orderBy: {
 					createdAt: 'desc'
 				},
-				take: maxResult,
-				
+				select: {
+					id: true,
+					name: true,
+					images: {
+						select: {
+							id: true,
+							url: true
+						},
+						where: {
+							url: {
+								not: undefined
+							}
+						},
+						take: 1
+					}
+				},
+				take: maxResult
 			});
 
-			console.log('🚀 ~ file: route.ts:165 ~ GET ~ products:', products);
-
-			// if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
-			// 	headers['Access-Control-Allow-Origin'] = process.env.FRONTEND_STORE_URL;
-			// }
-			// console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
-
+			console.log('🚀 ~ file: route.ts:125 ~ GET ~ products:', products);
 			return NextResponse.json(products, {
 				status: 200,
 				headers: {
