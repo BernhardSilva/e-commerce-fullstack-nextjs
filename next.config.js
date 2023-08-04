@@ -12,7 +12,7 @@ const nextConfig = {
 	// 	return [
 	// 		{
 	// 			source: '/app/api/:path*',
-	// 			destination: `${process.env.WHITE_LIST_URL}/:path*`
+	// 			destination: `${process.env.FRONTEND_STORE_URL}/:path*`
 	// 		}
 	// 	];
 	// },

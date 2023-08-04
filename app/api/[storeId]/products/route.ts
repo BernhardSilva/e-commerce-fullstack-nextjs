@@ -8,6 +8,8 @@ interface Props {
 	};
 }
 
+
+
 export async function POST(req: Request, { params }: Props) {
 	try {
 		const { userId } = auth();
@@ -142,28 +144,29 @@ export async function GET(req: Request, { params }: Props) {
 				}
 			});
 
-			console.log(JSON.stringify(products));
+			console.log("🚀 ~ file: route.ts:165 ~ GET ~ products:", products)
 
 			const headers: Record<string, string> = {
 				...{
 					...{
-						vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
+						'vary': 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
 						'Access-Control-Allow': 'true',
 						'Access-Control-Allow-Origin': 'http://localhost:3001',
 						'Content-Type': 'application/json',
-						connection: 'close',
+						'connection': 'close',
 						'Transfer-Encoding': 'chunked',
 						'Access-Control-Allow-Credentials': 'true',
-						'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+						'Access-Control-Allow-Methods': '*',
 						'Access-Control-Allow-Headers': 'Content-Type'
 					}
 				}
 			};
-
-			if (process.env.WHITE_LIST_URL && process.env.NODE_ENV === 'production') {
-				headers['Access-Control-Allow-Origin'] = process.env.WHITE_LIST_URL;
+			
+			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
+				headers['Access-Control-Allow-Origin'] = process.env.FRONTEND_STORE_URL;
 			}
 			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
+
 
 			return NextResponse.json(products, { headers, status: 200 });
 		} else {
