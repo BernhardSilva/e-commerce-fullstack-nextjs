@@ -148,13 +148,14 @@ export async function GET(req: Request, { params }: Props) {
 				...{
 					...{
 						vary: 'RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding',
-						'access-control-allow': 'true',
-						'access-control-allow-origin': 'http://localhost:3001',
-						'content-type': 'application/json',
+						'Access-Control-Allow': 'true',
+						'Access-Control-Allow-Origin': 'http://localhost:3001',
+						'Content-Type': 'application/json',
 						connection: 'close',
-						'transfer-encoding': 'chunked',
-						'access-control-allow-credentials': 'true',
-						'access-control-allow-methods': '*'
+						'Transfer-Encoding': 'chunked',
+						'Access-Control-Allow-Credentials': 'true',
+						'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+						'Access-Control-Allow-Headers': 'Content-Type'
 					}
 				}
 			};
