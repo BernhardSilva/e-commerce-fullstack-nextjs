@@ -162,10 +162,10 @@ export async function GET(req: Request, { params }: Props) {
 				}
 			};
 			
-			if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
-				headers['Access-Control-Allow-Origin'] = process.env.FRONTEND_STORE_URL;
-			}
-			console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
+			// if (process.env.FRONTEND_STORE_URL && process.env.NODE_ENV === 'production') {
+			// 	headers['Access-Control-Allow-Origin'] = process.env.FRONTEND_STORE_URL;
+			// }
+			// console.log('🚀 ~ file: route.ts:162 ~ GET ~ headers:', headers);
 
 
 			return NextResponse.json(products, { headers, status: 200 });
