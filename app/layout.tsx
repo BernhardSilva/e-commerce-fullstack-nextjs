@@ -19,7 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<ClerkProvider>
 			<html lang='en'>
 				<body className={inter.className}>
-					<ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+					<ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
 						<ToasterProvider />
 						<ModalProvider />
 						{children}
