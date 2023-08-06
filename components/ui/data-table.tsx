@@ -5,17 +5,16 @@ import { Input } from '@/components/ui/input';
 
 import {
 	ColumnDef,
+	ColumnFiltersState,
 	flexRender,
 	getCoreRowModel,
-	getPaginationRowModel,
 	getFilteredRowModel,
-	useReactTable,
-	ColumnFiltersState
+	getPaginationRowModel,
+	useReactTable
 } from '@tanstack/react-table';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from 'react';
-import { SearchCheck } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];

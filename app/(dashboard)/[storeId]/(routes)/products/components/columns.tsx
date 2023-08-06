@@ -1,9 +1,9 @@
 'use client';
 
+import HoverCardInfo from '@/components/ui/hover-card-info';
 import { ColumnDef } from '@tanstack/react-table';
 import { Check, FolderCheck, FolderOpen, X } from 'lucide-react';
 import { CellAction } from './cell-action';
-import HoverCardInfo from '@/components/ui/hover-card-info';
 
 export type ProductColumn = {
 	id: string;
@@ -25,7 +25,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
 		cell: ({ row }) => (
 			<HoverCardInfo
 				trigger={row.original.name.length > 30 ? `${row.original.name.slice(0, 30)}...` : row.original.name}
-				value={row.original.name}
+				content={row.original.name}
 			/>
 		)
 	},

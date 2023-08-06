@@ -23,7 +23,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
 	name: z.string().min(1).max(100),
-	price: z.coerce.number().min(1),
+	price: z.coerce.number().min(1).max(999999),
 	description: z.string().max(2000).optional(),
 	images: z.object({ url: z.string() }).array(),
 	categoryId: z.string().min(1),
@@ -50,7 +50,6 @@ interface ProductFormProps {
 }
 
 export const ProductForm = ({ initialData, categories, colors, sizes }: ProductFormProps) => {
-	console.log('🚀 ~ file: product-form.tsx:53 ~ ProductForm ~ initialData:', initialData);
 	const params = useParams();
 	const router = useRouter();
 

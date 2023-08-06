@@ -1,16 +1,16 @@
 import React from 'react';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 interface HoverCardInfoProps {
-	value: string;
-	trigger: any;
+	trigger: string;
+	content: string;
 }
 
-const HoverCardInfo = ({ value, trigger }: HoverCardInfoProps) => {
+const HoverCardInfo = ({ trigger, content }: HoverCardInfoProps) => {
 	return (
 		<HoverCard>
 			<HoverCardTrigger>{trigger}</HoverCardTrigger>
-			<HoverCardContent>{value}</HoverCardContent>
+			<HoverCardContent>{content}</HoverCardContent>
 		</HoverCard>
 	);
 };

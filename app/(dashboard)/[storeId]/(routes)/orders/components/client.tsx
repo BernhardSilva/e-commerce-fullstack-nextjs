@@ -17,7 +17,7 @@ export const OrderClient = ({ data }: OrderClientProps) => {
 				<Heading title={`Orders: (${data.length})`} description='Manage orders for your store' />
 			</div>
 			<Separator />
-			<DataTable searchKey='products' columns={columns} data={data} />
+			<DataTable searchKey='customer' columns={columns} data={data} />
 		</>
 	);
 };
