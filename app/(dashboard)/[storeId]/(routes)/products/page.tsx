@@ -37,7 +37,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
 
 	return (
 		<div className='flex-col'>
-			<div className='flex-1 space-y-4 p-8 pt-6'>
+			<div className='flex-1 space-y-4 p-4 sm:p-8 pt-6'>
 				<ProductClient data={formattedProducts} />
 			</div>
 		</div>

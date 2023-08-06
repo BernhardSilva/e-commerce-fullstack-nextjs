@@ -28,7 +28,7 @@ const MobileNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) =
 		router.push(href);
 	};
 	return (
-		<div className='inline-flex gap-4 sm:ml-5'>
+		<div className='inline-flex gap-4'>
 			<div className='flex justify-center'>
 				<DropdownMenu>
 					<DropdownMenuTrigger>

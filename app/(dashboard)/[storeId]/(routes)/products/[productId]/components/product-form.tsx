@@ -22,7 +22,7 @@ import { ArrowLeft, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
-	name: z.string().min(1),
+	name: z.string().min(1).max(100),
 	price: z.coerce.number().min(1),
 	description: z.string().max(2000).optional(),
 	images: z.object({ url: z.string() }).array(),
