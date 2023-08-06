@@ -44,7 +44,7 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 
 	const goBack = () => {
 		router.push(`/${params.storeId}/colors`);
-	}
+	};
 
 	const form = useForm<ColorFormValues>({
 		resolver: zodResolver(formSchema),
@@ -60,7 +60,7 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 				await axios.post(`/api/${params.storeId}/colors`, data);
 			}
 			router.refresh();
-			goBack()
+			goBack();
 			toast.success(toastMessage);
 		} catch (error: any) {
 			toast.error(error.response.data);
@@ -102,7 +102,7 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 			<Separator />
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
-					<div className='grid grid-cols-3 gap-8'>
+					<div className='grid grid-cols-1 sm:grid-cols-3 gap-8'>
 						<FormField
 							name='name'
 							control={form.control}
@@ -124,8 +124,8 @@ export const ColorForm = ({ initialData }: ColorFormProps) => {
 									<FormLabel>Color</FormLabel>
 									<FormControl>
 										<div className='flex items-center gap-x-4'>
-											<input
-												className='border w-10 h-10 cursor-pointer'
+											<Input
+												className='border w-10 h-10 cursor-pointer p-0'
 												disabled={loading}
 												type='color'
 												{...field}

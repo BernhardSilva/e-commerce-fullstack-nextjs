@@ -104,7 +104,7 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 			<Separator />
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
-					<div className='grid grid-cols-3 gap-8'>
+					<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
 						<FormField
 							name='name'
 							control={form.control}
@@ -123,7 +123,7 @@ export const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => 
 							control={form.control}
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Billboard id</FormLabel>
+									<FormLabel>Billboard</FormLabel>
 									<FormControl>
 										<Select
 											disabled={loading}

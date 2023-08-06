@@ -15,9 +15,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Heading } from '@/components/ui/heading';
 import ImageUpload from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
-import { Trash } from 'lucide-react';
+import { ArrowLeft, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
 
 const formSchema = z.object({
 	label: z.string().min(1),
@@ -121,7 +120,7 @@ export const BillboardForm = ({ initialData }: BillboardFormProps) => {
 							</FormItem>
 						)}
 					/>
-					<div className='grid grid-cols-3 gap-8'>
+					<div className='grid grid-col-1 sm:grid-cols-3 gap-8'>
 						<FormField
 							name='label'
 							control={form.control}

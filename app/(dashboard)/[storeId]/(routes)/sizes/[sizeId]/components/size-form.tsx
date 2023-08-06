@@ -100,7 +100,7 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 			<Separator />
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
-					<div className='grid grid-cols-3 gap-8'>
+					<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
 						<FormField
 							name='name'
 							control={form.control}
@@ -121,7 +121,6 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 								<FormItem>
 									<FormLabel>Size</FormLabel>
 									<FormControl>
-										{/* <Input disabled={loading} placeholder='Size name' {...field} /> */}
 										<Input disabled={loading} placeholder='Size' {...field} />
 									</FormControl>
 									<FormMessage />

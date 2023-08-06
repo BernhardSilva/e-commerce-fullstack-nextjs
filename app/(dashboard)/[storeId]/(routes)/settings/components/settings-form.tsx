@@ -93,7 +93,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 			<Separator />
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
-					<div className='grid grid-cols-3 gap-8'>
+					<div className='grid grid-cols-1 sm:grid-cols-3 gap-8'>
 						<FormField
 							name='name'
 							control={form.control}
@@ -114,8 +114,10 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 				</form>
 			</Form>
 			<Separator />
-			<ApiALert title='GET' description={`${origin}/api/stores/{storeId}`} variant='public' />
-			<ApiALert title='NEXT_PUBLIC_API_URL' description={`${origin}/api/${params.storeId}`} variant='public' />
+			<div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
+				<ApiALert title='GET' description={`${origin}/api/stores/{storeId}`} variant='public' />
+				<ApiALert title='NEXT_PUBLIC_API_URL' description={`${origin}/api/${params.storeId}`} variant='public' />
+			</div>
 		</>
 	);
 };
