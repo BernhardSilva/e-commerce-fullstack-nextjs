@@ -56,30 +56,6 @@ export async function POST(req: Request) {
 			});
 
 			console.log('🚀 POST order:', order);
-
-			const orderItems = order.orderItems;
-			const storeId = order.storeId;
-
-			// Group the orderItems by productId and sum up the quantities
-			const quantitiesByProductId = orderItems.reduce((map, orderItem) => {
-				const { productId, quantity } = orderItem;
-				return map.set(productId, (map.get(productId) ?? 0) + quantity);
-			}, new Map<string, number>());
-
-			// Update the stock for each productId
-			await Promise.all(
-				Array.from(quantitiesByProductId.entries()).map(async ([productId, quantity]) => {
-					console.log(`Updating stock for product <${productId}> with quantity <${quantity}>`);
-					await prismadb.stock.updateMany({
-						where: { productId, storeId },
-						data: {
-							quantity: {
-								decrement: quantity
-							}
-						}
-					});
-				})
-			);
 		}
 		return new Response(null, { status: 200 });
 	} catch (error: any) {
