@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 		<div
 			className='flex min-h-screen min-w-screen items-center justify-center bg-gray-900 bg-cover bg-no-repeat sm:bg-contain sm:bg-center'
 			style={{
-				backgroundImage: `url('/auth-bg.avif')`,
+				backgroundImage: `url('/auth-bg.webp')`,
 				backgroundSize: 'cover'
 			}}
 		>
